@@ -1,4 +1,4 @@
-package org.learningspark.simple;
+package com.shavinod.spark.examples;
 
 import au.com.bytecode.opencsv.CSVReader;
 import org.apache.spark.SparkConf;
