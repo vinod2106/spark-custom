@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 
 /**
@@ -22,8 +23,7 @@ public class WordCount {
 	private static final Logger logger = LoggerFactory.getLogger(WordCount.class);
 	
 	public static void main(String[] args) {
-	  
-	  
+		  
     SparkConf sparkConf = new SparkConf().setAppName("Word Count").setMaster("local[*]");
     JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
     
@@ -32,10 +32,13 @@ public class WordCount {
     String inputFile = args[0];
     logger.info("inputFile {}",inputFile);
     
+    //Read the input file name from classLoader
     //InputStream resourceContent = classLoader.getResourceAsStream(inputFile);
+    URL inputFileURL = ClassLoader.getSystemResource(inputFile); 
+    logger.info("inputFileURL {}",inputFileURL);
     
     // Read the source file
-    JavaRDD<String> input = sparkContext.textFile(inputFile);
+    JavaRDD<String> input = sparkContext.textFile(inputFileURL.toString());
 
     // RDD is immutable, let's create a new RDD which doesn't contain empty lines
     // the function needs to return true for the records to be kept
