@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import scala.Tuple2;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -43,7 +42,12 @@ public class WordCount {
     // RDD is immutable, let's create a new RDD which doesn't contain empty lines
     // the function needs to return true for the records to be kept
     JavaRDD<String> nonEmptyLines = input.filter(new Function<String, Boolean>() {
-      @Override
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Override
       public Boolean call(String s) throws Exception {
         if(s == null || s.trim().length() < 1) {
           return false;
@@ -54,7 +58,12 @@ public class WordCount {
 
     // Now we have non-empty lines, lets split them into words
     JavaRDD<String> words = nonEmptyLines.flatMap(new FlatMapFunction<String, String>() {
-      @Override
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Override
       public Iterable<String> call(String s) throws Exception {
         return Arrays.asList(s.split(" "));
       }
@@ -62,13 +71,23 @@ public class WordCount {
 
     // Convert words to Pairs, remember the TextPair class in Hadoop world
     JavaPairRDD<String, Integer> wordPairs = words.mapToPair(new PairFunction<String, String, Integer>() {
-      public Tuple2<String, Integer> call(String s) {
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	public Tuple2<String, Integer> call(String s) {
         return new Tuple2<String, Integer>(s, 1);
       }
     });
 
     JavaPairRDD<String, Integer> wordCount = wordPairs.reduceByKey(new Function2<Integer, Integer, Integer>() {
-      @Override
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Override
       public Integer call(Integer integer, Integer integer2) throws Exception {
         return integer + integer2;
       }
@@ -76,11 +95,18 @@ public class WordCount {
 
     // Just for debugging, NOT FOR PRODUCTION
     wordCount.foreach(new VoidFunction<Tuple2<String, Integer>>() {
-      @Override
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	@Override
       public void call(Tuple2<String, Integer> stringIntegerTuple2) throws Exception {
         System.out.println(String.format("%s - %d", stringIntegerTuple2._1(), stringIntegerTuple2._2()));
       }
     });
 
+    //close spark context
+    sparkContext.close();
   }
 }
