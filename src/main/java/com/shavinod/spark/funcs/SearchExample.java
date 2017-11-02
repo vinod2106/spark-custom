@@ -45,7 +45,7 @@ public class SearchExample {
 
 	private static void newJavaFilter(JavaSparkContext sc, String filePath) {
 		// read and filter
-		JavaRDD<String> lines = sc.textFile(inputFilePath).filter(s->s.contains("error"));
+		JavaRDD<String> lines = sc.textFile(inputFilePath).filter(s -> s.contains("error"));
 		long numErrors = lines.count();
 		logger.info("numErrors ==========> {}", numErrors);
 	}
@@ -57,14 +57,27 @@ public class SearchExample {
 		sc.setLogLevel("INFO");
 		// input file
 		String inputFile = args[0];
-		logger.info("inputFile =======> " + inputFile);
-
 		// Read the input file name from classLoader. Just give the name of the file not
 		// complete path
 		// InputStream resourceContent = classLoader.getResourceAsStream(inputFile);
-		URL inputFileURL = ClassLoader.getSystemResource(inputFile);
-		logger.info("inputFileURL" + inputFileURL.toString());
-		inputFilePath = inputFileURL.getPath();
+		logger.info("inputFile =======> " + inputFile);
+
+		// for windows and linux
+		switch (OsCheck.getOperatingSystemType()) {
+		case Windows:
+			logger.info("OS =====> Windows detected");
+			URL inputFileURL = ClassLoader.getSystemResource(inputFile);
+			logger.info("inputFileURL ====> " + inputFileURL.getPath());
+			inputFilePath = inputFileURL.getFile();
+
+		case Linux:
+			logger.info("Linux detected");
+			inputFilePath = inputFile;
+
+		default:
+			logger.info("Unkown os detected");
+			break;
+		}
 
 		newJavaFilter(sc, inputFilePath);
 
