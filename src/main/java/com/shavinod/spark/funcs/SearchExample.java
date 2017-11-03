@@ -69,11 +69,11 @@ public class SearchExample {
 			URL inputFileURL = ClassLoader.getSystemResource(inputFile);
 			logger.info("inputFileURL ====> " + inputFileURL.getPath());
 			inputFilePath = inputFileURL.getFile();
-
+                        break;
 		case Linux:
 			logger.info("Linux detected");
 			inputFilePath = inputFile;
-
+                        break;
 		default:
 			logger.info("Unkown os detected");
 			break;
