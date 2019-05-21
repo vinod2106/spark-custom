@@ -1,4 +1,4 @@
-package com.shavinod.spark.examples;
+package com.vks.spark.examples;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Famous WordCount example
@@ -63,8 +64,8 @@ public class WordCount {
 		private static final long serialVersionUID = 1L;
 
 	@Override
-      public Iterable<String> call(String s) throws Exception {
-        return Arrays.asList(s.split(" "));
+      public Iterator<String> call(String s) throws Exception {
+        return (Iterator<String>) Arrays.asList(s.split(" "));
       }
     });
 

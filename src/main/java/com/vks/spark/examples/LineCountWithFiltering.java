@@ -1,4 +1,4 @@
-package com.shavinod.spark.examples;
+package com.vks.spark.examples;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;

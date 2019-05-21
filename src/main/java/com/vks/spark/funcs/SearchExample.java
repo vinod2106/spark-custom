@@ -1,4 +1,4 @@
-package com.shavinod.spark.funcs;
+package com.vks.spark.funcs;
 
 import java.net.URL;
 import org.apache.spark.SparkConf;

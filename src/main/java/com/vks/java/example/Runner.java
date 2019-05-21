@@ -1,4 +1,4 @@
-package com.shavinod.java.example;
+package com.vks.java.example;
 
 public class Runner {
 
